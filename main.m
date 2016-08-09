@@ -1,7 +1,7 @@
 clear;clc;
 
-firstSegment1 = 4.5;
-firstSegment2 = 3.5;
+firstSegment1 = 5;
+firstSegment2 = 3;
 
 [y1,fs1] = audioread('../deney13/userstudy_1470681274856.mp4');
 [y2,fs2] = audioread('../deney13/userstudy_1470681283338.mp4');
@@ -26,3 +26,4 @@ else
 end
 
 sound(y1aligned+y2aligned,fs1);
+audiowrite('zaar.wav',y1aligned+y2aligned,fs1);
