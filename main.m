@@ -1,10 +1,13 @@
 clear;clc;
 
+video1 = '../deney13/userstudy_1470681274856.mp4';
+video2 = '../deney13/userstudy_1470681283338.mp4';
+
 firstSegment1 = 5;
 firstSegment2 = 3;
 
-[y1,fs1] = audioread('../deney13/userstudy_1470681274856.mp4');
-[y2,fs2] = audioread('../deney13/userstudy_1470681283338.mp4');
+[y1,fs1] = audioread(video1);
+[y2,fs2] = audioread(video2);
 
 y1mono = (y1(:,1)+y1(:,2)) / 2;
 y2mono = (y2(:,1)+y2(:,2)) / 2;
@@ -27,3 +30,13 @@ end
 
 sound(y1aligned+y2aligned,fs1);
 audiowrite('zaar.wav',y1aligned+y2aligned,fs1);
+
+vreader1 = VideoReader(video1);
+vreader2 = VideoReader(video2);
+
+fps1 = 27;
+fps2 = 18;
+
+i=0;
+frameDelay = round(delay*fps1/fs1);
+timeDelay = delay / (fs1 / 1000);
