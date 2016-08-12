@@ -1,6 +1,11 @@
 clear;clc;close all;
 
-sketchfile = fopen('../deney13/sketch_stream_1470681274856.sketch');
+filename = '../deney13/sketch_stream_1470681274856.sketch';
+
+dimx = 1140;
+dimy = 650;
+
+sketchfile = fopen(filename);
 
 numoflines = 0;
 line = fgetl(sketchfile);
@@ -11,7 +16,7 @@ end
 
 fclose(sketchfile);
 
-sketchfile = fopen('../deney13/sketch_stream_1470681274856.sketch');
+sketchfile = fopen(filename);
 %edit zaar.sketchelleam
 %output = fopen('zaar.sketchelleam');
 vw = VideoWriter('sketchvideo.avi');
@@ -20,11 +25,15 @@ frameRate = 30;
 spf = 1 / frameRate;
 disp(['Nspf = ' num2str(spf*1000000000)]);
 
+soccerfield = imread('soccerfield.png');
 line = fgetl(sketchfile);
 delims = strsplit(line,',');
 initTime = str2num(delims{end});
 figure;
-axis([0 1100 0 600]);
+imshow(soccerfield);
+strokes = cell(2,1);
+width = cell(2,1);
+%axis([0 dimx 0 dimy]);
 disp(line);
 writeVideo(vw,getframe(gca));
 %writeVideo.FrameRate = frameRate;
@@ -39,30 +48,23 @@ while ischar(line)
         if time - initTime >= spf * 1000000 * frameCount
             type = delims{2};
             
+            disp(line);
+            
+            while time - initTime >= spf * 1000000000 * frameCount
+                writeVideo(vw,getframe(gca));
+                frameCount = frameCount + 1;
+            end
+            
             if strcmp(delims{2},'STRSTART')
+                strokes{str2num(delims{1})+1} = animatedline;
+                set(strokes{str2num(delims{1})+1},'Color',[str2num(delims{4})/255 str2num(delims{5})/255 str2num(delims{6})/255 str2num(delims{7})/255]);
+                set(strokes{str2num(delims{1})+1},'LineWidth',str2double(delims{3}));
             elseif strcmp(delims{2},'STREND')
             elseif strcmp(delims{2},'CLEAR')
-                disp(line);
-                clf;
-                axis([0 1100 0 600]);
-                
-                while time - initTime >= spf * 1000000000 * frameCount
-                    writeVideo(vw,getframe(gca));
-                    %disp(line);
-                    frameCount = frameCount + 1;
-                end
+                imshow(soccerfield);
             elseif strcmp(delims{2},'VIDEOOPEN')
             else
-                disp(line);
-                hold on;
-                axis([0 1100 0 600]);
-                plot(str2double(delims{2}),str2double(delims{3}),'xk');
-                
-                while time - initTime >= spf * 1000000000 * frameCount
-                    writeVideo(vw,getframe(gca));
-                    %disp(line);
-                    frameCount = frameCount + 1;
-                end
+                addpoints(strokes{str2num(delims{1})+1},str2double(delims{2}),str2double(delims{3}));
             end
         end
     end
