@@ -1,4 +1,4 @@
-clear;clc;
+clear;clc;close all;
 
 sketchfile = fopen('../deney13/sketch_stream_1470681274856.sketch');
 
@@ -16,11 +16,9 @@ sketchfile = fopen('../deney13/sketch_stream_1470681274856.sketch');
 %output = fopen('zaar.sketchelleam');
 vw = VideoWriter('sketchvideo.avi');
 open(vw);
-
-arr = [];
-frameRate = 60;
+frameRate = 30;
 spf = 1 / frameRate;
-disp(['Nspf = ' num2str(spf*1000000)]);
+disp(['Nspf = ' num2str(spf*1000000000)]);
 
 line = fgetl(sketchfile);
 delims = strsplit(line,',');
@@ -29,7 +27,7 @@ figure;
 axis([0 1100 0 600]);
 disp(line);
 writeVideo(vw,getframe(gca));
-writeVideo.FrameRate = frameRate;
+%writeVideo.FrameRate = frameRate;
 frameCount = 1;
 firstTime = 1;
 while ischar(line)
@@ -46,16 +44,25 @@ while ischar(line)
             elseif strcmp(delims{2},'CLEAR')
                 disp(line);
                 clf;
+                axis([0 1100 0 600]);
+                
+                while time - initTime >= spf * 1000000000 * frameCount
+                    writeVideo(vw,getframe(gca));
+                    %disp(line);
+                    frameCount = frameCount + 1;
+                end
             elseif strcmp(delims{2},'VIDEOOPEN')
             else
                 disp(line);
                 hold on;
+                axis([0 1100 0 600]);
                 plot(str2double(delims{2}),str2double(delims{3}),'xk');
-            end
-            
-            while time - initTime >= spf * 1000000 * frameCount
-                writeVideo(vw,getframe(gca));
-                frameCount = frameCount + 1;
+                
+                while time - initTime >= spf * 1000000000 * frameCount
+                    writeVideo(vw,getframe(gca));
+                    %disp(line);
+                    frameCount = frameCount + 1;
+                end
             end
         end
     end
@@ -67,4 +74,4 @@ end
 close;
 close(vw);
 fclose(sketchfile);
-fclose(output);
+%fclose(output);
