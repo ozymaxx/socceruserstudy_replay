@@ -1,6 +1,6 @@
 clear;clc;close all;
 
-filename = '../deney13/sketch_stream_1470681274856.sketch';
+filename = '../sketch_stream_1472047678004.sketch';
 
 dimx = 1140;
 dimy = 650;
@@ -57,8 +57,15 @@ while ischar(line)
             
             if strcmp(delims{2},'STRSTART')
                 strokes{str2num(delims{1})+1} = animatedline;
-                set(strokes{str2num(delims{1})+1},'Color',[str2num(delims{4})/255 str2num(delims{5})/255 str2num(delims{6})/255 str2num(delims{7})/255]);
-                set(strokes{str2num(delims{1})+1},'LineWidth',str2double(delims{3}));
+                eraseMode = delims{8};
+                
+                if strcmp(eraseMode,'true')
+                    set(strokes{str2num(delims{1})+1},'Color',[2/255 134/255 52/255 1]);
+                    set(strokes{str2num(delims{1})+1},'LineWidth',str2double(delims{3}));
+                else
+                    set(strokes{str2num(delims{1})+1},'Color',[str2num(delims{4})/255 str2num(delims{5})/255 str2num(delims{6})/255 str2num(delims{7})/255]);
+                    set(strokes{str2num(delims{1})+1},'LineWidth',str2double(delims{3}));
+                end
             elseif strcmp(delims{2},'STREND')
             elseif strcmp(delims{2},'CLEAR')
                 imshow(soccerfield);
