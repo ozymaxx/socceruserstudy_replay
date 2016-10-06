@@ -1,6 +1,6 @@
 clear;clc;close all;
 
-filename = 'sketch_stream_1475252710505.sketch';
+filename = 'sketch_stream_1475659534638.sketch';
 
 dimx = 1140;
 dimy = 650;
@@ -41,19 +41,6 @@ frameCount = 1;
 firstTime = 1;
 hovered = [0 0];
 pointers = cell(2,2);
-for inn=1:2
-    for out=1:2
-        pointers{inn,out} = animatedline;
-        
-        if inn == 1
-            set(pointers{inn,out},'Color',[1 0 0 1]);
-        elseif inn == 2
-            set(pointers{inn,out},'Color',[0 0 0 1]);
-        end
-        
-        set(pointers{inn,out},'LineWidth',8);
-    end
-end
 
 while ischar(line)
     delims = strsplit(line,',');
@@ -88,6 +75,21 @@ while ischar(line)
             elseif strcmp(delims{2},'VIDEOOPEN')
             elseif strcmp(delims{2},'STARTHOVER')
                 hovered(str2num(delims{1})+1) = 1;
+                hold on;
+                
+                for inn=1:2
+                    for out=1:2
+                        pointers{inn,out} = animatedline;
+        
+                        if inn == 1
+                            set(pointers{inn,out},'Color',[1 0 0 1]);
+                        elseif inn == 2
+                            set(pointers{inn,out},'Color',[0 0 0 1]);
+                        end
+        
+                        set(pointers{inn,out},'LineWidth',4);
+                    end
+                end
             elseif strcmp(delims{2},'ENDHOVER')
                 hovered(str2num(delims{1})+1) = 0;
                 clearpoints(pointers{str2num(delims{1})+1,1});
@@ -95,6 +97,9 @@ while ischar(line)
             elseif strcmp(delims{2},'HOVER')
                 ptx = str2double(delims{3});
                 pty = str2double(delims{4});
+                
+                clearpoints(pointers{str2num(delims{1})+1,1});
+                clearpoints(pointers{str2num(delims{1})+1,2});
                 
                 if hovered(str2num(delims{1})+1)
                     addpoints(pointers{str2num(delims{1})+1,1},ptx-10,pty-10);
