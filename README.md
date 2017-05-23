@@ -1,5 +1,5 @@
 # Drawing Animation Script for Case Studies
-This MATLAB script produces the drawing animation recorded in a case study. Just browse the `.sketch` file generated in a study, then let the script re-produce the drawing animation in the study.
+This MATLAB script produces the drawing animation recorded in a [case study](https://github.com/ozymaxx/socceruserstudy). Just browse the `.sketch` file generated in a study, then let the script re-produce the drawing animation in the study.
 
 ## Requirements 
 * MATLAB 2014b or above
