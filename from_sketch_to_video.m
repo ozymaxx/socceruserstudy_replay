@@ -1,6 +1,9 @@
 clear;clc;close all;
 
-filename = 'sketch_stream_1475659534638.sketch';
+[f,p] = uigetfile('*.sketch','Open a sketch stream file');
+filename = strcat(p,f);
+[f,p] = uiputfile('*.avi','Save output to...');
+outvideo = strcat(p,f);
 
 dimx = 1140;
 dimy = 650;
@@ -19,7 +22,7 @@ fclose(sketchfile);
 sketchfile = fopen(filename);
 %edit zaar.sketchelleam
 %output = fopen('zaar.sketchelleam');
-vw = VideoWriter('sketchvideo.avi');
+vw = VideoWriter(outvideo);
 open(vw);
 frameRate = 30;
 spf = 1 / frameRate;
