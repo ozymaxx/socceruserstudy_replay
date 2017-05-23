@@ -4,6 +4,11 @@ This MATLAB script produces the drawing animation recorded in a [case study](htt
 ## Requirements 
 * MATLAB 2014b or above
 
+## How to use
+* Open matlab and run `from_sketch_to_video.m`
+* Browse a `.sketch` stream file and output video location
+* Wait for the script to finish
+
 ## Credits
 [Soccer Field Background](https://clipartfest.com/download/021ec02162b694153e20bc6c8f6c4c1361a387e7.html)<br />
 Ozan Can Altıok (oaltiok15 at ku dot edu dot tr) - [Koç University IUI Laboratory](http://iui.ku.edu.tr)
